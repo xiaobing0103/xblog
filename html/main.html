@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+    <head>    
+        <title>xiao's blog</title>
+        <meta charset="utf-8">
+        <script src="/static/js/jquery-3.4.1.min.js"></script>
+      
+                
+            
+        
+        <style>
+            body{
+                font-family: 微软雅黑;
+            }
+
+            #div_user{
+                margin-left: 60px;
+                font-size: 11pt;
+                margin-top: 5px;
+                margin-bottom: 20px;
+            }
+
+            #div_img{
+                margin-bottom: 30px;
+            }
+
+            #divf{
+                border-style: solid;
+                border-width: 1px;
+                border-color: steelblue;
+                border-radius: 3px;
+                margin-top: 55px;
+            }
+            
+            #div_doc{
+                font-size: 10pt;
+            }
+
+            #div_all{
+                border-radius: 3px;
+                border-style: solid;
+                border-width: 1px;
+                border-color: steelblue;
+                margin-top: 5px;
+            }
+
+            #div_type{
+                font-size: 10pt;
+                text-align: center;
+                margin-top: 20px;
+            }
+
+            div.df{
+                font-size: 10pt;
+                margin: 20px 0;
+                border-bottom-style: dotted;
+                border-bottom-width: 1px;
+                border-color: steelblue;
+            }
+
+            /* #div_summary{
+                border-style: solid;
+                border-width: 1px;
+                border-color: steelblue;
+                padding: 5px 5px;
+                
+            } */
+
+            h3{
+                background-color: rgb(32, 121, 194);
+                margin: 0;
+                padding: 10px 10px;
+                color: white;
+                border-style: solid;
+                border: 1px;
+                border-radius: 2px;
+            }
+
+            img{
+                float: left;
+            }
+
+            #tdf{
+                vertical-align: top;
+            }
+
+            #td_search{
+                padding: 0;
+                vertical-align: top;
+            }
+
+            #id_search{
+                margin-left: 200px;
+            }
+
+            #input_search{
+                width: 400px;
+                height: 30px;
+                margin-bottom: 10px;
+            }
+
+            input.input_bu{
+                margin-left: 30px;
+                margin-right: 30px;
+            }
+
+            p.p_text{
+                margin-bottom: 20px;
+                margin-top: 2px;
+                font-size: 10pt;
+            }
+
+            h5.h_title{
+                margin: 5px 5px;
+            }
+
+            #div_title{
+                margin: 0;
+            }
+
+            a{
+                text-decoration: none;
+            }
+
+            a:link {color:#000000;}      /* 未访问链接*/
+            a:visited {color:#000000;}  /* 已访问链接 */
+            a:hover {color:#000000;}  /* 鼠标移动到链接上 */
+            a:active {color:#0000FF;}  /* 鼠标点击时 */
+
+            #div_text{
+                margin: 0px 20px;
+            }
+
+            #div_sum{
+                /* border-top-style: solid; */
+                border-bottom-style: solid;
+                border-bottom-width: 1px;
+                /* border-top-width: 1px; */
+                margin: 10px 0px;
+                border-color: steelblue;
+            }
+
+            button{
+                background-color: steelblue; /* Green */
+                border: none;
+                color: white;
+                padding: 6px 10px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 12px;
+                cursor: pointer; 
+                border-radius: 2px;   
+            }
+
+            span.page{
+                font-size: 10pt;
+                margin-left: 30px;
+            }
+
+            td.td_new{
+                vertical-align: top;
+            }
+
+            button.bu_new{
+                margin-top: 4px;
+            }
+
+            #span_he{
+                font-size: 9pt;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h3>博客空间</h3>
+        <br>
+        <table style="width: 100%;">
+            <tr>
+                <td id="tdf" style="width: 20%;">
+                    <div id="divf">
+                        <div id="div_img">
+                            <img src="C:\Users\xiaob\Desktop\微信截图_20200130153411.png" alt="">
+                            <div id="div_user">
+                                <span id="span_he"><b>你好，{{msg.fullname}}</b></span>
+                                <span>
+                                    &ensp;&ensp;&ensp;&ensp;&ensp;
+                                    <a href="{% url 'logout' %}">
+                                    <button id="bu_exit">注销</button></a>
+                                </span>
+                            </div>
+                        </div>
+                    <div id="div_doc">
+                        <table>
+                            <tr>
+                                <td style="width: 3%;"><b>文档</b></td>
+                                <td style="width: 3%;"><b>评论</b></td>
+                                <td style="width: 3%;"><b>点赞</b></td>
+                                <td style="width: 3%;"><b>访问</b></td>
+                            </tr>
+                            <tr>
+                                <td><b>{{msg.count}}</b></td>
+                                <td><b>{{comment}}</b></td>
+                                <td><b>{{like}}</b></td>
+                                <td><b>{{access}}</b></td>
+                            </tr>
+                        </table>
+                    </div>
+                    </div>
+                    <div id="div_all">
+                        <div id="div_type"><b>文档分类</b></div>
+                        <div class="df"><b>桌面运维文档({{msg.desktop}})</b></div>
+                        <div class="df"><b>系统技术文档({{msg.system}})</b></div>
+                        <div class="df"><b>应用技术文档({{msg.app}})</b></div>
+                        <div class="df"><b>网络技术文档({{msg.net}})</b></div>
+                        <div class="df"><b>开发技术文档({{msg.dev}})</b></div>
+                    </div>
+                </td>
+
+                <td id="td_search" style="width: 80%;">
+                    <div id="div_text">    
+                        <div id="id_search">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <form action="" method="GET">
+                                            <span><input type="text" id="input_search" name="search" value="{{msg.search}}"></span>
+                                            &ensp;&ensp;
+                                            <span><button name="query" value="query">查询</button></span>
+                                        </form>
+                                    </td>
+                                    <td class="td_new">
+                                        &ensp;&ensp;
+                                        <span><a href="{% url 'new' %}"><button class="bu_new">新增</button></a></span>
+                                    </td>
+                                    <td class="td_new">
+                                        <form action="" method="GET">
+                                            &ensp;&ensp;&ensp;&ensp;
+                                            <button class="bu_new" name="bu_only" value="only">个人文档</button>
+                                        </form>
+                                    </td>
+                                    <td class="td_new">
+                                        <form action="" method="GET">
+                                            &ensp;&ensp;
+                                            <button class="bu_new" name="bu_all" value="all">所有文档</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div id="div_summary">
+                            {% for doc in document %}
+                                <div id="div_sum">
+                                    <a href="{% url 'details' doc.id %}">
+                                        <div id="div_title">
+                                            <h5 class="h_title"><span>{{ forloop.counter|add:strat }}.</span><span>{{ doc.title }}</span></h4>
+                                            <p class="p_text">{{ doc.text }}</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div>
+                            <form action="" method="GET">
+                                <span><button name="submit" value="pre">上一页</button></span>
+                                <span><button name="submit" value="next">下一页</button></span>
+                                <span><input name="alper" value="{{msg.alpers}}" type="hidden"></span>
+                                <span class="page">当前页：{{ current }}</span>
+                                <span class="page">总页数：{{ sum }}</span>
+                            </form>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <script>
+            $("#input_search").blur(function(){
+                $(this).attr("value",$(this).val());
+             })
+        </script>
+
+    </body>
+
+
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+    <head>    
+        <title>xiao's blog</title>
+        <meta charset="utf-8">
+        <script src="/static/js/jquery-3.4.1.min.js"></script>
+      
+                
+            
+        
+        <style>
+            body{
+                font-family: 微软雅黑;
+            }
+
+            #div_user{
+                margin-left: 60px;
+                font-size: 11pt;
+                margin-top: 5px;
+                margin-bottom: 20px;
+            }
+
+            #div_img{
+                margin-bottom: 30px;
+            }
+
+            #divf{
+                border-style: solid;
+                border-width: 1px;
+                border-color: steelblue;
+                border-radius: 3px;
+                margin-top: 55px;
+            }
+            
+            #div_doc{
+                font-size: 10pt;
+            }
+
+            div.div_all{
+                border-radius: 3px;
+                border-style: solid;
+                border-width: 1px;
+                border-color: steelblue;
+                margin-top: 5px;
+            }
+
+            #div_type{
+                font-size: 10pt;
+                text-align: center;
+                margin-top: 20px;
+            }
+
+            div.df{
+                font-size: 10pt;
+                margin: 20px 0;
+                border-bottom-style: dotted;
+                border-bottom-width: 1px;
+                border-color: steelblue;
+            }
+
+            /* #div_summary{
+                border-style: solid;
+                border-width: 1px;
+                border-color: steelblue;
+                padding: 5px 5px;
+                
+            } */
+
+            h3{
+                background-color: rgb(32, 121, 194);
+                margin: 0;
+                padding: 10px 10px;
+                color: white;
+                border-style: solid;
+                border: 1px;
+                border-radius: 2px;
+            }
+
+            img{
+                float: left;
+            }
+
+            #tdf{
+                vertical-align: top;
+            }
+
+            #td_search{
+                padding: 0;
+                vertical-align: top;
+            }
+
+            #id_search{
+                margin-left: 200px;
+            }
+
+            #input_search{
+                width: 400px;
+                height: 30px;
+                margin-bottom: 10px;
+            }
+
+            input.input_bu{
+                margin-left: 30px;
+                margin-right: 30px;
+            }
+
+            p.p_text{
+                margin-bottom: 20px;
+                margin-top: 2px;
+                font-size: 10pt;
+            }
+
+            h5.h_title{
+                margin: 5px 5px;
+            }
+
+            #div_title{
+                margin: 0;
+            }
+
+            a{
+                text-decoration: none;
+            }
+
+            a:link {color:#000000;}      /* 未访问链接*/
+            a:visited {color:#000000;}  /* 已访问链接 */
+            a:hover {color:#000000;}  /* 鼠标移动到链接上 */
+            a:active {color:#0000FF;}  /* 鼠标点击时 */
+
+            #div_text{
+                margin: 0px 20px;
+            }
+
+            #div_sum{
+                /* border-top-style: solid; */
+                border-bottom-style: solid;
+                border-bottom-width: 1px;
+                /* border-top-width: 1px; */
+                margin: 10px 0px;
+                border-color: steelblue;
+            }
+
+            button{
+                background-color: steelblue; /* Green */
+                border: none;
+                color: white;
+                padding: 6px 10px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 12px;
+                cursor: pointer; 
+                border-radius: 2px;   
+            }
+
+            span.page{
+                font-size: 10pt;
+                margin-left: 30px;
+            }
+    
+            #dtf{
+                border-style: solid;
+                border-color: steelblue;
+                border-width: 1px;
+                border-radius: 3px;
+                padding: 15px 5px;
+                font-size: 10pt;
+            }
+
+            #logf{
+                padding: 0;
+                vertical-align: top;
+            }
+
+            input.name{
+                height: 20px;
+            }
+
+            input.password{
+                height: 20px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h3>博客空间</h3>
+        <br>
+        <table style="width: 100%;">
+            <tr>
+                <td id="tdf" style="width: 20%;">
+                    <div id="dtf">
+                        <table>
+                            <tr>
+                                <td>
+                                    用户名：                             
+                                </td>
+                                <td>
+                                    <input type="text" class="name">   
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    密码：
+                                </td>
+                                <td>
+                                    <input type="password" class="password">
+                                </td>
+                            </tr>
+                        </table>
+                        &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+                        <button id="buf">登录</button>
+                        &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+                        <button id="register">注册</button>
+                    </div>
+                    </div>
+                    <div class="div_all">
+                        <div id="div_type"><b>文档分类</b></div>
+                        <div class="df"><b>桌面运维文档({{msg.desktop}})</b></div>
+                        <div class="df"><b>系统技术文档({{msg.system}})</b></div>
+                        <div class="df"><b>应用技术文档({{msg.app}})</b></div>
+                        <div class="df"><b>网络技术文档({{msg.net}})</b></div>
+                        <div class="df"><b>开发技术文档({{msg.dev}})</b></div>
+                    </div>
+                </td>
+
+                <td id="td_search" style="width: 80%;">
+                    <div id="div_text">    
+                        <div id="id_search">
+                            <span>
+                                <form action="" method="GET">
+                                    <span><input type="text" id="input_search" name="search" value="{{msg.search}}"></span>
+                                    &ensp;&ensp;&ensp;&ensp;&ensp;
+                                    <span><button name="submit" value="query">查询</button></span>
+                            </form>
+                            </span>
+                        </div>
+                        <div id="div_summary">
+                            {% for doc in document %}
+                                <div id="div_sum">
+                                    <a href="{% url 'details' doc.id %}">
+                                        <div id="div_title">
+                                            <h5 class="h_title"><span>{{ forloop.counter|add:strat }}.</span><span>{{ doc.title }}</span></h4>
+                                            <p class="p_text">{{ doc.text }}</p>
+                                        </div>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div>
+                            <form action="" method="GET">
+                                <span><button name="submit" value="pre">上一页</button></span>
+                                <span><button name="submit" value="next">下一页</button></span>
+                                <span><input name="alper" value="{{msg.alpers}}" type="hidden"></span>
+                                <span class="page">当前页：{{ current }}</span>
+                                <span class="page">总页数：{{ sum }}</span>
+                            </form>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <script>
+            $("#buf").click(function(){
+                var user_name = $("input.name").val()
+                var user_password = $("input.password").val()
+                if (user_name == ''){
+                    alert("用户名不能为空")
+                }
+                else{
+                    if (user_password == ''){
+                        alert("密码不能为空")
+                    }
+                    else{
+                        $.ajax({
+                            type:"POST",
+                            url: "/xblog/login/",
+                            traditional:true,
+                            data:{user_name: user_name,user_password: user_password,csrfmiddlewaretoken: '{{ csrf_token }}'},
+                            success:function(login){
+                                if (login.code == 200)
+                                {
+                                    window.location.href = "{% url 'main' %}"
+                                }
+                                else
+                                {
+                                    tips = login.tips
+                                    alert(tips)
+                                }
+                            }
+                        })
+                    }
+                }
+            })
+        </script>
+
+        <script>
+            $("#register").click(function(){
+                window.location.href = "{% url 'register' %}"
+            })
+        </script>
+
+        <script>
+            $("#input_search").blur(function(){
+                $(this).attr("value",$(this).val());
+            })
+        </script>
+    </body>
+
+
+</html>

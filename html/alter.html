@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+    <head>    
+        <title>xiao's blog</title>
+        <meta charset="utf-8">
+        <script src="/static/js/jquery-3.4.1.min.js"></script>
+
+        
+        <style>
+            body{
+                font-family: 微软雅黑;
+            }
+
+            h3{
+                background-color: rgb(32, 121, 194);
+                margin: 0;
+                padding: 10px 10px;
+                color: white;
+                border-style: solid;
+                border: 1px;
+                border-radius: 2px;
+            }
+
+            #ip_title{
+                width: 99.8%;
+                height: 28px;
+                margin-bottom: 20px;
+            }
+
+            #div_docu{
+                margin-left: 15%;
+                width: 70%;
+
+            }
+
+            #id_newdoc{
+                height: 25px;
+                width: 200px;
+            }
+
+            button{
+                background-color: steelblue; /* Green */
+                border: none;
+                color: white;
+                padding: 6px 10px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 12px;
+                margin-left: 5px;
+                cursor: pointer; 
+                border-radius: 2px;   
+            }
+        </style>
+    </head>
+
+    <body>
+        <h3>博客空间</h3>
+        <br>
+        <div id="div_docu">
+            <input id="ip_title" type="text" placeholder="请输入文章标题">
+            <input id='content' type='hidden'  value='{{data.content}}' />
+            <script>$("#ip_title").val('{{data.title}}')</script>
+
+            <script src="/static/ueditor1_4_3_2-utf8-jsp/utf8-jsp/ueditor.config.js"></script>
+            <script src="/static/ueditor1_4_3_2-utf8-jsp/utf8-jsp/ueditor.all.js"></script>
+            <script type="text/javascript" charset="utf-8" src="/static/ueditor1_4_3_2-utf8-jsp/utf8-jsp/lang/zh-cn/zh-cn.js"></script>
+            <script id="editor" type="text/plain" name="gdesc" style="width:100%;height:350px;"></script>
+            <script type="text/javascript">
+                //实例化编辑器
+                var ue = UE.getEditor('editor', {
+                    toolbars: [
+                [
+                    'undo', //撤销
+                    'bold', //加粗
+                    'underline', //下划线
+                    'preview', //预览
+                    'horizontal', //分隔线
+                    'inserttitle', //插入标题
+                    'cleardoc', //清空文档
+                    'fontfamily', //字体
+                    'fontsize', //字号
+                    'paragraph', //段落格式
+                    'simpleupload', //单图上传
+                    'insertimage', //多图上传
+                    'attachment', //附件
+                    'music', //音乐
+                    'inserttable', //插入表格
+                    'emotion', //表情
+                    'insertvideo', //视频
+                    'justifyleft', //居左对齐
+                    'justifyright', //居右对齐
+                    'justifycenter', //居中对
+                    'justifyjustify', //两端对齐
+                    'forecolor', //字体颜色
+                    'fullscreen', //全屏
+                    'edittip ', //编辑提示
+                    'customstyle', //自定义标题
+                    'template', //模板
+                    ]
+                ]
+                });
+
+                ue.addListener("ready", function () {
+                    ue.setContent($("#content").val());
+                })
+            //     //获取纯文本内容：
+            //     ue.getContentTxt();
+            //     //获取保留格式的文本内容：
+            //     ue.getPlainTxt();
+            //     //获取HTM文本内容：
+            //     ue.getContent();
+            function editorContent(){
+                var t = new Date()
+                var year = t.getFullYear()
+                var month = t.getMonth()+1
+                var day = t.getDate()
+                var hour = t.getHours()
+                var minute = t.getMinutes()
+                var second = t.getSeconds()
+                var datetime = year+"/"+month+"/"+day+" "+hour+((minute<10)?":0":":")+minute+((second<10)?":0":":")+second
+                var text;
+                var content = ue.getContent();//获取编辑器html内容
+                var text_all = ue.getContentTxt();
+                var type_doc = $("#id_newdoc").val();
+                var title = $("#ip_title").val();
+                if (text_all.length > 200){
+                    text = text_all.substring(0,200 )+"......";
+                }
+                else {
+                    text = text_all
+                }
+                $.ajax({
+                            type:"POST",
+                            url: "/xblog/alter/",
+                            traditional:true,
+                            data:{
+                                content: content,
+                                text: text,
+                                type_doc: type_doc,
+                                title: title,
+                                datetime: datetime,
+                                data_id: '{{data.id}}',
+                                csrfmiddlewaretoken: '{{ csrf_token }}'
+                            },
+                            success:function(submit){
+                                if (submit.code == 200)
+                                {
+                                    alert("提交成功")
+                                    window.location.href = "{% url 'main' %}"
+                                }
+                                else
+                                {
+                                    alert("提交失败")
+                                }
+                            }
+                        })
+            }
+
+            </script>
+
+
+            <p>
+                <span style="font-size: 10pt;">文档类型 </span><input type="text" list="type_list" id="id_newdoc">
+                <datalist id="type_list">
+                    <option value="桌面运维文档"></option>
+                    <option value="系统技术文档"></option>
+                    <option value="应用技术文档"></option>
+                    <option value="网络技术文档"></option>
+                    <option value="开发技术文档"></option>
+                </datalist>
+            </p> 
+            <button type="button" id="sub" onclick="editorContent()">提交</button>
+        </div>
+
+        <script>
+            $("input").blur(function(){
+                $(this).attr("value",$(this).val());
+             })
+        </script>
+
+
+    </body>
+
+
+</html>

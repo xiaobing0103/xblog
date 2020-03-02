@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+    <head>    
+        <title>xiao's blog</title>
+        <meta charset="utf-8">
+        <script src="/static/js/jquery-3.4.1.min.js"></script>
+      
+                
+            
+        
+        <style>
+            body{
+                font-family: 微软雅黑;
+            }
+
+            #div_user{
+                margin-left: 60px;
+                font-size: 11pt;
+                margin-top: 5px;
+                margin-bottom: 20px;
+            }
+
+            #div_img{
+                margin-bottom: 30px;
+            }
+
+            #divf{
+                border-style: solid;
+                border-width: 1px;
+                border-color: steelblue;
+                border-radius: 3px;
+            }
+            
+            #div_doc{
+                font-size: 10pt;
+            }
+
+            div.div_all{
+                border-radius: 3px;
+                border-style: solid;
+                border-width: 1px;
+                border-color: steelblue;
+                margin-top: 5px;
+            }
+
+            #div_type{
+                font-size: 10pt;
+                text-align: center;
+                margin-top: 20px;
+            }
+
+            div.df{
+                font-size: 10pt;
+                margin: 20px 0;
+                border-bottom-style: dotted;
+                border-bottom-width: 1px;
+                border-color: steelblue;
+            }
+
+            #div_summary{
+                border-style: solid;
+                border-width: 1px;
+                border-color: steelblue;
+                border-radius: 4px;
+                
+            }
+
+            h3{
+                background-color: rgb(32, 121, 194);
+                margin: 0;
+                padding: 10px 10px;
+                color: white;
+                border-style: solid;
+                border: 1px;
+                border-radius: 2px;
+            }
+
+            img{
+                float: left;
+            }
+
+            #td_search{
+                padding: 0;
+                vertical-align: top;
+            }
+
+            #id_search{
+                margin-left: 200px;
+            }
+
+            #input_search{
+                width: 300px;
+                height: 30px;
+                margin-bottom: 10px;
+            }
+
+            input.input_bu{
+                margin-left: 30px;
+            }
+
+            p.p_text{
+                margin: 0;
+                font-size: 11pt;
+            }
+
+            h4{
+                margin-top: 0;
+                margin-left: 30px;
+            }
+
+            #div_title{
+                margin: 5px 0px;
+            }
+
+            button{
+                background-color: steelblue; /* Green */
+                border: none;
+                color: white;
+                padding: 6px 10px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 12px;
+                cursor: pointer; 
+                border-radius: 2px;   
+            }
+
+            td{
+                vertical-align: top;
+            }
+
+            #tdf{
+                position: fixed;
+            }
+
+            #div_contents{
+                margin: 3px 30px;
+            }
+
+            #span_he{
+                font-size: 9pt;
+            }
+            #div_comment{
+                border-style: solid;
+                border-width: 1px;
+                border-color: steelblue;
+                border-radius: 3px;
+                margin-top: 5px;
+            }
+
+            #div_like{
+                margin-top: 3px;
+                margin-bottom: 3px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h3>博客空间</h3>
+        <br>
+        <table style="width: 100%;">
+            <tr>
+                <td id="tdf" style="width: 20%;">
+                    <div id="divf">
+                        <div id="div_img">
+                            <img src="C:\Users\xiaob\Desktop\微信截图_20200130153411.png" alt="">
+                            <div id="div_user">
+                                <span id="span_he"><b>你好，{{msg.fullname}}</b></span>
+                                <span>
+                                    &ensp;&ensp;&ensp;&ensp;&ensp;
+                                    <a href="{% url 'logout' %}">
+                                    <button id="bu_exit"></button></a>
+                                </span>
+                            </div>
+                        </div>
+                    <div id="div_doc">
+                        <table>
+                            <tr>
+                                <!-- <td style="width: 3%;"><b>文档</b></td> -->
+                                <td style="width: 4%;"><b>评论</b></td>
+                                <td style="width: 4%;"><b>点赞</b></td>
+                                <td style="width: 4%;"><b>访问</b></td>
+                            </tr>
+                            <tr>
+                                <!-- <td><b>{{msg.count}}</b></td> -->
+                                <td><b>{{comment}}</b></td>
+                                <td><b>{{like}}</b></td>
+                                <td><b>{{access}}</b></td>
+                            </tr>
+                        </table>
+                    </div>
+                    </div>
+                    <!-- <div class="div_all">
+                        <div id="div_type"><b>文档分类</b></div>
+                        <div class="df"><b>桌面运维({{msg.desktop}})</b></div>
+                        <div class="df"><b>系统文档({{msg.system}})</b></div>
+                        <div class="df"><b>应用文档({{msg.app}})</b></div>
+                        <div class="df"><b>开发文档({{msg.dev}})</b></div>
+                    </div> -->
+                    <div class="div_all">
+                        <div class="df">作者：{{doc.author}}</div>
+                        <div class="df">发布于：{{doc.createdate}}</div>
+                        <div class="df">最新编辑时间：{{doc.editdate}}</div>
+                        <div class="df" id="div_butt"></div>
+                    </div>
+                    <div id="div_comment">
+                        <div id="div_like">
+                            &ensp;&ensp;&ensp;&ensp;
+                            <button>点赞</button>
+                            &ensp;&ensp;&ensp;&ensp;
+                            <button>发表评论</button>
+                        </div>
+                    </div>
+                </td>
+
+                <td id="td_search" style="width: 80%;">
+                    <div id="div_contents">   
+                        <h4>{{ doc.title }}</h4>
+                        <div id="div_summary">
+                            <div id="notetext">{{doc.content}}</div>
+                        </div>
+                    </div> 
+                </td>
+            </tr>
+        </table>
+
+        <script type="text/javascript">
+            var obj = document.getElementById("notetext");
+            obj.innerHTML = obj.innerText;//这样重新设置html代码为解析后的格式
+        </script>
+
+        <script>           
+            var user = "{{msg.fullname}}"
+            var author = "{{doc.author}}"
+            var username = "{{msg.username}}"
+            if (user == "游客"){
+                $("#bu_exit").text("返回")
+            }
+            else{
+                $("#bu_exit").text("注销")
+                if (username == author){
+                    $("#div_butt").html('&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<button id="bu_del">删除</button>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<button id="bu_edit">修改</button>')
+                }
+            }
+        </script>
+
+        <script>
+            $("#bu_del").click(function(){
+                $.ajax({
+                    type:"POST",
+                    url: "/xblog/delete/",
+                    traditional:true,
+                    data:{delete_data: '{{doc.id}}',csrfmiddlewaretoken:'{{ csrf_token }}'},
+                    success:function(del){
+                        if (del.code == 200){
+                            alert("删除成功")
+                            window.location.href = "{% url 'main' %}"
+                        }
+                        else{
+                            alert("删除失败")
+                        }
+                    }
+                })            
+            })
+        </script>
+
+        <script>
+            $("#bu_edit").click(function(){
+                var alter_id = '{{doc.id}}'
+                window.location.href = "{% url 'alter' %}?alter_id="+alter_id
+            })
+        </script>
+    </body>
+
+
+</html>

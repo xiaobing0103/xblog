@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+    <head>    
+        <title>xiao's blog</title>
+        <meta charset="utf-8">
+        <script src="/static/js/jquery-3.4.1.min.js"></script>
+      
+                
+            
+        
+        <style>
+            body{
+                font-family: 微软雅黑;
+            }
+
+            #h3_title{
+                background-color: rgb(32, 121, 194);
+                margin: 0;
+                padding: 10px 10px;
+                color: white;
+                border-style: solid;
+                border: 1px;
+                border-radius: 2px;
+            }
+
+            button.bu_all{
+                background-color: steelblue;
+                border: none;
+                color: white;
+                padding: 8px 12px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 12px;
+                cursor: pointer; 
+                border-radius: 2px;   
+            }
+
+            #bu_check{
+                background-color: steelblue;
+                border: none;
+                color: white;
+                padding: 8px 12px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 12px;
+                cursor: pointer; 
+                border-radius: 2px;   
+            }
+
+            #h3_fi{
+                text-align: center;
+            }
+
+            #div_register{
+                width: 45%;
+                height: 80%;
+                left: 25%;
+                position: absolute;
+                border-style: solid;
+                border-width: 1px;
+                border-radius: 3px;
+                border-color: steelblue;
+                margin: 0;
+            }
+
+            table{
+              left: 20%;
+              position: absolute;
+              border-collapse:separate; 
+              border-spacing:0px 15px;
+            }
+
+            #td_user{
+                width: 100px;
+            }
+
+            #td_input{
+                width: 300px;
+            }
+
+            input.in_all{
+                width: 250px;
+                height: 25px;
+            }
+
+            #id_check{
+                height: 25px;
+            }
+
+            span.span_all{
+                font-size: 11pt;
+                font-weight: 600;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h3 id="h3_title">博客空间</h3>
+        <br>
+        <div id="div_register">
+            <h3 id="h3_fi">用户注册</h3>
+            <br>
+            <div>    
+                <table>
+                    <tr>
+                        <td id="td_user"><span class="span_all">用户邮箱</span></td>
+                        <td id="td_input"><input class="in_all" type="text" id="email"></td>
+                    </tr>
+                    <tr>
+                        <td><span class="span_all">用户名</span></td>
+                        <td><input class="in_all" type="text" id="username"></td>
+                    </tr>
+                    <tr>
+                        <td><span class="span_all">用户全称</span></td>
+                        <td><input class="in_all" type="text" id="fullname"></td>
+                    </tr>
+                    <tr>
+                        <td><span class="span_all">用户密码</span></td>
+                        <td><input class="in_all" type="password" id="user_password"></td>
+                    </tr>
+                    <tr>
+                        <td><span class="span_all">确认密码</span></td>
+                        <td><input class="in_all" type="password" id="ensure"></td>
+                    </tr>
+                    <tr>
+                        <td><span class="span_all">验证码</span></td>
+                        <td><input type="text" id="id_check"><button id="bu_check">获取验证码</button></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td><input type="hidden" id="input_recode"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>&ensp;<button class="bu_all" type="submit" id="id_register">提交</button>
+                            &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+                            <button class="bu_all">返回</button>
+                        </td>
+                    </tr>
+                </table>       
+            </div>            
+        </div>
+
+        <script>
+            var wait = 60;
+            var check = 'yes';
+            var email
+            
+            document.getElementById("bu_check").onclick = function() {
+                time(this);
+                email = $("#email").val()
+
+                $.ajax({
+                            type:"POST",
+                            url: "/xblog/register/",
+                            traditional:true,
+                            data:{check_char: check,email: email,csrfmiddlewaretoken: '{{ csrf_token }}'},
+                            success:function(check){
+                                document.getElementById("input_recode").innerHTML = check.code
+                            }
+                        })
+            }
+            function time(o) {
+                if (wait == 0) {
+                    o.removeAttribute("disabled");
+                    o.innerHTML = "获取验证码";
+                    wait = 60;
+                } else {
+                    o.setAttribute("disabled", true);
+                    o.innerHTML = wait+"S后再试";
+                    wait--;
+                    setTimeout(function() {
+                        time(o)
+                    }, 1000)
+                }
+            }
+        </script>
+
+        <script>
+            $("#id_register").click(function(){
+                var email = $("#email").val()
+                var username = $("#username").val()
+                var fullname = $("#fullname").val()
+                var password = $("#user_password").val()
+                var ensure = $("#ensure").val()
+                var check = $("#id_check").val()
+                var recode = $("#input_recode").text()
+
+                if (email == '' || username == '' || fullname == '' || password == '' || ensure == '' || check == ''){
+                    alert("信息未填写完整");
+                }
+                else{
+                    if (password == ensure){
+                        $.ajax({
+                            type:"POST",
+                            url: "/xblog/register/",
+                            traditional:true,
+                            data:{email: email,user_name: username,fullname: fullname,user_password: password,check: check,recode: recode,csrfmiddlewaretoken: '{{ csrf_token }}'},
+                            success:function(register){
+                                if (register.code == 200)
+                                {
+                                    window.location.href = "{% url 'index' %}"
+                                }
+                                else
+                                {
+                                    tips = "验证码错误"
+                                    alert(tips)
+                                }
+                            }
+                        })
+                    }
+                    else{
+                        alert("确认密码不匹配")
+                    }
+                }
+            })
+        </script>
+        
+    </body>
+
+
+</html>
